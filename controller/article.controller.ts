@@ -91,3 +91,20 @@ export const deleteArticle = async (req: any, res: any) => {
     });
   }
 };
+
+export const getUserArticles = async (req: any, res: any) => {
+  try {
+    const { authorization } = req.headers;
+    const userData = JSON.parse(atob(authorization.split(".")[1]));
+    const articleData = await articleModel.find({ email: userData.email });
+
+    return res.status(200).json({
+      data: articleData,
+      message: "Articles found successfully.",
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
