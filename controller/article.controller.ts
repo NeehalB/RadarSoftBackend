@@ -6,7 +6,6 @@ export const addArticle = async (req: any, res: any) => {
     const { authorization } = req.headers;
 
     const userData = JSON.parse(atob(authorization.split(".")[1]));
-    console.log(title, description, category, userData.email);
 
     const articleData = new articleModel({
       title,
@@ -32,6 +31,7 @@ export const addArticle = async (req: any, res: any) => {
 export const editArticle = async (req: any, res: any) => {
   try {
     const { title, description, category, id } = req.body;
+
     const { authorization } = req.headers;
 
     const userData = JSON.parse(atob(authorization.split(".")[1]));
@@ -70,7 +70,7 @@ export const getAllArticles = async (req: any, res: any) => {
 
 export const deleteArticle = async (req: any, res: any) => {
   try {
-    const { id } = req.body;
+    const { id } = req.query;
     const { authorization } = req.headers;
 
     const userData = JSON.parse(atob(authorization.split(".")[1]));
@@ -95,8 +95,16 @@ export const deleteArticle = async (req: any, res: any) => {
 export const getUserArticles = async (req: any, res: any) => {
   try {
     const { authorization } = req.headers;
+    const { id } = req.query;
+
     const userData = JSON.parse(atob(authorization.split(".")[1]));
-    const articleData = await articleModel.find({ email: userData.email });
+
+    let criteria: { email: string; _id?: string } = { email: userData.email };
+
+    if (id) {
+      criteria = { ...criteria, _id: id };
+    }
+    const articleData = await articleModel.find(criteria);
 
     return res.status(200).json({
       data: articleData,
