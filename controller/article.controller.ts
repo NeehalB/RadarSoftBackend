@@ -2,13 +2,17 @@ import articleModel from "../model/article.model.ts";
 
 export const addArticle = async (req: any, res: any) => {
   try {
-    const { title, description, category, email } = req.body;
+    const { title, description, category } = req.body;
+    const { authorization } = req.headers;
+
+    const userData = JSON.parse(atob(authorization.split(".")[1]));
+    console.log(title, description, category, userData.email);
 
     const articleData = new articleModel({
       title,
       description,
       category,
-      email,
+      email: userData.email,
     });
 
     articleData.save();
@@ -33,7 +37,7 @@ export const editArticle = async (req: any, res: any) => {
     const userData = JSON.parse(atob(authorization.split(".")[1]));
 
     const articleData = await articleModel.updateOne(
-      { email: userData.gmail, _id: id },
+      { email: userData.email, _id: id },
       { $set: { title, description, category } }
     );
 
