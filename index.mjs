@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import { config } from "dotenv";
-import userRouter from "./router/user.router";
-import articleRouter from "./router/article.router";
+import userRouter from "./router/user.router.mjs";
+import articleRouter from "./router/article.router.mjs";
 
 config();
 

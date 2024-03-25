@@ -1,6 +1,6 @@
-import articleModel from "../model/article.model.ts";
+import articleModel from "../model/article.model.mjs";
 
-export const addArticle = async (req: any, res: any) => {
+export const addArticle = async (req, res) => {
   try {
     const { title, description, category } = req.body;
     const { authorization } = req.headers;
@@ -21,14 +21,14 @@ export const addArticle = async (req: any, res: any) => {
         message: "Article added successfully!",
       });
     }
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       message: error.message,
     });
   }
 };
 
-export const editArticle = async (req: any, res: any) => {
+export const editArticle = async (req, res) => {
   try {
     const { title, description, category, id } = req.body;
 
@@ -46,14 +46,14 @@ export const editArticle = async (req: any, res: any) => {
         message: "Article updated successfully!",
       });
     }
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       message: error.message,
     });
   }
 };
 
-export const getAllArticles = async (req: any, res: any) => {
+export const getAllArticles = async (req, res) => {
   try {
     const articleData = await articleModel.find();
 
@@ -61,14 +61,14 @@ export const getAllArticles = async (req: any, res: any) => {
       data: articleData,
       message: "Articles found successfully.",
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       message: error.message,
     });
   }
 };
 
-export const deleteArticle = async (req: any, res: any) => {
+export const deleteArticle = async (req, res) => {
   try {
     const { id } = req.query;
     const { authorization } = req.headers;
@@ -85,21 +85,21 @@ export const deleteArticle = async (req: any, res: any) => {
         message: "Deleted article successfully.",
       });
     }
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       message: error.message,
     });
   }
 };
 
-export const getUserArticles = async (req: any, res: any) => {
+export const getUserArticles = async (req, res) => {
   try {
     const { authorization } = req.headers;
     const { id } = req.query;
 
     const userData = JSON.parse(atob(authorization.split(".")[1]));
 
-    let criteria: { email: string; _id?: string } = { email: userData.email };
+    let criteria = { email: userData.email };
 
     if (id) {
       criteria = { ...criteria, _id: id };
@@ -110,7 +110,7 @@ export const getUserArticles = async (req: any, res: any) => {
       data: articleData,
       message: "Articles found successfully.",
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       message: error.message,
     });

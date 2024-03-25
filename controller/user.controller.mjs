@@ -1,7 +1,7 @@
-import userModel from "../model/user.model.ts";
+import userModel from "../model/user.model.mjs";
 import jwt from "jsonwebtoken";
 
-export const addUser = async (req: any, res: any) => {
+export const addUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -18,14 +18,14 @@ export const addUser = async (req: any, res: any) => {
         message: "User added successfully!",
       });
     }
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       message: error.message,
     });
   }
 };
 
-export const signInUser = async (req: any, res: any) => {
+export const signInUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -45,7 +45,7 @@ export const signInUser = async (req: any, res: any) => {
 
     const token = jwt.sign(
       { userId: userData._id, email: userData.email },
-      process.env.SECRET_KEY as string,
+      process.env.SECRET_KEY,
       { expiresIn: "7h" }
     );
 
@@ -57,7 +57,7 @@ export const signInUser = async (req: any, res: any) => {
       token: token,
       message: "Logged in successfully!",
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       message: error.message,
     });

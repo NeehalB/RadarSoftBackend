@@ -5,7 +5,7 @@ import {
   editArticle,
   getAllArticles,
   getUserArticles,
-} from "../controller/article.controller";
+} from "../controller/article.controller.mjs";
 
 const articleRouter = express.Router();
 
