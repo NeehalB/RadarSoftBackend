@@ -17,7 +17,7 @@ app.listen(PORT, () => {
 });
 
 mongoose
-  .connect(process.env.DB_PASSWORD as string)
+  .connect(process.env.DB_PASSWORD)
   .then(() => console.log("Connected to Database"))
   .catch((error) => console.log(error));
 
